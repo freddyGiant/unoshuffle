@@ -8,7 +8,7 @@ plt.rcParams["figure.autolayout"] = True
 plt.rcParams['font.size'] = 16
 
 # config
-TRIALS = 1000
+TRIALS = 10000
 SHUFFLES = 10
 VAL_FREQS_PER_COLOR = { 0: 1 } | {
     # numerical cards, skip, reverse, plus two occur twice
@@ -17,7 +17,10 @@ VAL_FREQS_PER_COLOR = { 0: 1 } | {
 
 """Findings:
 Around 6 shuffles is enough for both metrics.
-There are 87 adjacent, compatible cards in a completely unshuffled deck.
+
+There are 88 adjacent, compatible cards in a completely unshuffled deck, reduced to 29.666 after 6 shuffles.
+
+There are 49 adjacent cards of the same color in a completely unshuffled deck, reduced to 24.602 after 6 shuffles.
 """
 
 def main():
@@ -50,8 +53,8 @@ def main():
     adj_same_col_counts = [x / TRIALS 
                            for x in adj_same_col_counts]
     
-    print(adj_comp_counts[6])
-    print(adj_same_col_counts[6])
+    print(f'{adj_comp_counts[0]} -> {adj_comp_counts[6]}')
+    print(f'{adj_same_col_counts[0]} -> {adj_same_col_counts[6]}')
     
     plt.title('Deck Shuffledness vs. Shuffle Attempts (1k Trials)')
     plt.plot(adj_comp_counts, label='average # of adjacent, compatible cards')
@@ -72,18 +75,24 @@ def flatten(l):
     plt.legend()
     plt.show()
 def adj_comp_count(d):
-    # TODO: Fix off-by-one when the last card is part of a matching pair (probably won't fix this lmao)
     count = 0
     for i in range(len(d) - 1):
-        if compatible(d[i], d[i + 1]): count += 1
+        if compatible(d[i], d[i + 1]):
+            if i == len(d) - 2:
+                count += 2
+            else:
+                count += 1
     return count
 def compatible(c1, c2):
     return c1[0] == c2[0] or c1[1] == c2[1]
 def adj_same_col_count(d):
-    # TODO: Fix off-by-one when the last card is part of a matching pair (probably won't fix this lmao)
     count = 0
     for i in range(len(d) - 1):
-        if d[i][0] == d[i + 1][0]: count += 1
+        if d[i][0] == d[i + 1][0]: 
+            if i == len(d) - 2:
+                count += 2
+            else:
+                count += 1
     return count
 def riffle(d):
     half1, half2 = imperfectcut(d)
