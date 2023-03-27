@@ -15,6 +15,11 @@ VAL_FREQS_PER_COLOR = { 0: 1 } | {
         v: 2 for v in list(range(1, 10)) + ['s', 'r', '+']
     }
 
+"""Findings:
+Around 6 shuffles is enough for both metrics.
+There are 87 adjacent, compatible cards in a completely unshuffled deck.
+"""
+
 def main():
     OGDECK = flatten([[col + str(val)] * freq 
                 for val, freq in VAL_FREQS_PER_COLOR.items() 
@@ -67,6 +72,7 @@ def flatten(l):
     plt.legend()
     plt.show()
 def adj_comp_count(d):
+    # TODO: Fix off-by-one when the last card is part of a matching pair (probably won't fix this lmao)
     count = 0
     for i in range(len(d) - 1):
         if compatible(d[i], d[i + 1]): count += 1
@@ -74,6 +80,7 @@ def adj_comp_count(d):
 def compatible(c1, c2):
     return c1[0] == c2[0] or c1[1] == c2[1]
 def adj_same_col_count(d):
+    # TODO: Fix off-by-one when the last card is part of a matching pair (probably won't fix this lmao)
     count = 0
     for i in range(len(d) - 1):
         if d[i][0] == d[i + 1][0]: count += 1
