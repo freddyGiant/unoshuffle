@@ -8,25 +8,28 @@ plt.rcParams["figure.autolayout"] = True
 plt.rcParams['font.size'] = 16
 
 # config
-TRIALS = 10000
-SHUFFLES = 10
+TRIALS = 1000
+SHUFFLES = 7
 VAL_FREQS_PER_COLOR = { 0: 1 } | {
     # numerical cards, skip, reverse, plus two occur twice
         v: 2 for v in list(range(1, 10)) + ['s', 'r', '+']
     }
 
 """Findings:
-Around 6 shuffles is enough for both metrics.
+Around 3 shuffles is reasonable for both metrics.
 
-There are 88 adjacent, compatible cards in a completely unshuffled deck, reduced to 29.666 after 6 shuffles.
+There are 97 adjacent, compatible cards in a completely unshuffled deck, reduced to ~29.4 after 6 shuffles.
 
-There are 49 adjacent cards of the same color in a completely unshuffled deck, reduced to 24.602 after 6 shuffles.
+There are 49 adjacent cards of the same color in a completely unshuffled deck, reduced to ~24.5 after 6 shuffles.
 """
 
 def main():
     OGDECK = flatten([[col + str(val)] * freq 
-                for val, freq in VAL_FREQS_PER_COLOR.items() 
-                for col in ['r', 'b', 'g', 'y']])
+                for col in ['r', 'b', 'g', 'y']
+                for val, freq in VAL_FREQS_PER_COLOR.items()])
+    
+    # print(OGDECK)
+    
     # adjacent compatible card counts
     adj_comp_counts = [0] * (SHUFFLES + 1)
     # adjacent same color counts
@@ -56,7 +59,7 @@ def main():
     print(f'{adj_comp_counts[0]} -> {adj_comp_counts[6]}')
     print(f'{adj_same_col_counts[0]} -> {adj_same_col_counts[6]}')
     
-    plt.title('Deck Shuffledness vs. Shuffle Attempts (1k Trials)')
+    plt.title(f'Deck Shuffledness vs. Shuffle Attempts ({TRIALS} Trials)')
     plt.plot(adj_comp_counts, label='average # of adjacent, compatible cards')
     plt.plot(adj_same_col_counts, label='average # of adjacent cards of the same color')    
     # plt.plot([30]*(SHUFFLES + 1)); plt.plot([20]*(SHUFFLES + 1))
@@ -64,6 +67,7 @@ def main():
     plt.ylim([0, 100])
     plt.xticks(range(0, SHUFFLES + 1))
     plt.yticks(range(0, 101, 10))
+    plt.grid()
     plt.legend(prop={'size': 16})
     plt.show()
                         
