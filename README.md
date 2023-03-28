@@ -58,8 +58,10 @@ TODO: figure out why that happens
 *See the code for what could be more updated findings, lol.*    
  Graphically it can be shown that, on average, 3 shuffles a reasonable (albeit beginning-to-push-it) number of times to shuffle a deck of UNO! cards to satisfy the stated non-shuffledness metrics after playing a casual game.
 
-- There are 97 adjacent, compatible cards in a completely unshuffled deck, reduced to ~29.4 after 6 shuffles.
-- There are 49 adjacent cards of the same color in a completely unshuffled deck, reduced to ~24.5 after 6 shuffles.
+Around 3 shuffles is reasonable for both metrics.
+
+- There are 96 adjacent, compatible cards in a completely unshuffled deck, reduced to ~29.88 after 39 shuffles.
+- There are 96 adjacent cards of the same color in a completely unshuffled deck, reduced to ~24.29 after 39 shuffles.
 
 ## Bibliography
 Trailing the Dovetail Shuffle to its Lair, Bayer et. al., 1992 https://statweb.stanford.edu/~cgates/PERSI/papers/bayer92.pdf
